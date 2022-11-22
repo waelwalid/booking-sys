@@ -10,7 +10,7 @@ PATH_CURRENT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # MYSQL configurations
 database_local_schemas=("booking_service")
 
-necessary_application=("mysqldb node14")
+necessary_application=("mysqldb")
 
 function install_dependencies() {
     # http://www.figlet.org/
@@ -62,12 +62,10 @@ function update_hosts() {
 
 
 function build() {
-        docker network create booking-sys_default
-        docker network create booking-sys_booksys
         for APPDATA in "${necessary_application[@]}"; do
             echo -e "${GREEN}Build DockerImages${NC} $APPDATA"
             docker-compose build --compress --force-rm $APPDATA
-            docker-compose up $APPDATA
+            docker-compose up -d $APPDATA
         done
 
 }
