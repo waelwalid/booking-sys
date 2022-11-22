@@ -20,10 +20,5 @@ export default {
     database: process.env.MYSQL_DB,
   },
 
-  allowed_bus_count: process.env.ALLOWED_BUS_COUNT,
-  allowed_location_count: process.env.ALLOWED_LOCATION_COUNT,
-  allowed_seat_count: process.env.ALLOWED_SEAT_COUNT,
-  allowed_seat_code: process.env.ALLOWED_SEAT_CODE,
-
   long_trip_distance: process.env.LONG_TRIP_DISTANCE,
 };
