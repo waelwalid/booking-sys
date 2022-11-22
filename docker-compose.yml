@@ -22,7 +22,9 @@ services:
         aliases:
           - booking.local
     command: >
-      bash -c "npm install
+      bash -c "
+      cp .env.example .env
+      && npm install
       && npm run dev"
 
   postgresdb:
