@@ -1,10 +1,13 @@
 import { Service } from 'typedi';
 import {
+  Between,
   FindManyOptions,
+  In,
 } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
-import * as moment from 'moment';
-import { Order } from '../entities/Order';
+import moment from 'moment/moment';
+import _ from 'lodash';
+import { Order, StatusType } from '../entities/Order';
 import { AppDataSource } from '../utility/data-source';
 import { OrderCreate } from '../validation/OrderCreate';
 import { LineService } from './LineService';
@@ -58,7 +61,7 @@ export class OrderService {
     // Using OrderStateMachine
     const stateMachine = new OrderStateMachine(order);
 
-    // SeatsAvailablity
+    // SeatsAvailability
     const orderSeats:SeatAvailabilityEntity[] = [];
 
     let savedOrder :any;
@@ -125,12 +128,12 @@ export class OrderService {
   }
 
   async expiredOrder(stateMachine: OrderStateMachine): Promise<void> {
-    const orderDateTime = moment.default(stateMachine.order.created_at);
-    const currentDateTime = moment.default();
+    const orderDateTime = moment(stateMachine.order.created_at);
+    const currentDateTime = moment();
     const { order } = stateMachine;
     const diff = currentDateTime.diff(orderDateTime, 'minutes');
 
-    // TRANSCTION To expire and release seats
+    // TRANSACTION To expire and release seats
     if (diff > 2) {
       // Set order status to expired
       stateMachine.getState().expiredOrder();
@@ -149,6 +152,59 @@ export class OrderService {
         // you need to release query runner which is manually created:
         await queryRunner.release();
       }
+    }
+  }
+
+  async handleOrderLifeSpan() {
+    const format = 'Y-M-D H:m:s';
+    const currentTime = moment().format(format);
+    const beforeCurrent = moment().subtract(process.env.ORDER_LIFE_SPAN, 'minutes').format(format);
+
+    const orders = await this.repo.find({
+      where: {
+        created_at: Between(
+          beforeCurrent,
+          currentTime,
+        ),
+      },
+    } as FindManyOptions);
+
+    const orderIds = _.map(orders, 'id');
+
+    const queryRunner = AppDataSource.createQueryRunner();
+    const queryBuilder = AppDataSource.createQueryBuilder();
+    try {
+      queryRunner.startTransaction();
+
+      // Set order expired status
+      queryBuilder.update(Order).set({
+        status: StatusType.EXPIRED,
+      }).where({
+        created_at: Between(
+          beforeCurrent,
+          currentTime,
+        ),
+      }).execute();
+
+      // Release Seats
+      queryBuilder
+        .from(SeatAvailabilityEntity, 'seat_availability')
+        // .leftJoin('orders', 'order', 'seat_availability.order_id = order.id')
+        // .where(`order.status = '${StatusType.EXPIRED}'`)
+        .delete()
+        .where({
+          order_id: In(orderIds),
+        })
+        .execute();
+
+      // commit transaction now:
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors let's rollback changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release query runner which is manually created:
+      await queryRunner.release();
     }
   }
 }
