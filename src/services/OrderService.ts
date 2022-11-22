@@ -199,7 +199,7 @@ export class OrderService {
 
       // commit transaction now:
       await queryRunner.commitTransaction();
-      console.log(`Found [${count.affected}] orders created 2 minutes ago...`);
+      console.log(`${new Date().toISOString()} Found [${count.affected}] orders created 2 minutes ago...`);
     } catch (err) {
       // since we have errors let's rollback changes we made
       await queryRunner.rollbackTransaction();
