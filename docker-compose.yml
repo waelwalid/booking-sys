@@ -24,8 +24,9 @@ services:
     command: >
       bash -c "
       cp .env.example .env
-      && npm run migration:up
       && npm install
+      && npm run migration:up
+      && npm run seed:run
       && npm run start"
 
   # postgresdb:

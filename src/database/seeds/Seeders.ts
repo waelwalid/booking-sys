@@ -3,18 +3,18 @@ import { Location } from '../../entities/Location';
 import { Bus } from '../../entities/Bus';
 import { Line, LineType } from '../../entities/Line';
 import { AppDataSource } from '../../utility/data-source';
-import { Order } from '../../entities/Order';
+// import { Order } from '../../entities/Order';
 
 export default class Seeders implements Seeder {
   public async run(factory: Factory): Promise<any> {
     /** Clear database  */
     await AppDataSource.initialize();
 
-    const orderRepo = AppDataSource.getRepository(Order);
-    await orderRepo.delete({});
+    // const orderRepo = AppDataSource.getRepository(Order);
+    // await orderRepo.delete({});
 
-    const lineRepo = AppDataSource.getRepository(Line);
-    await lineRepo.delete({});
+    // const lineRepo = AppDataSource.getRepository(Line);
+    // await lineRepo.delete({});
 
     const busRepo = AppDataSource.getRepository(Bus);
     await busRepo.delete({});
