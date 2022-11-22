@@ -1,5 +1,5 @@
 # Booking-sys
-> Booking-sys-Bus Tickets Reservation System
+> Booking-sys- repository for Services Containerization
 
 ## Requirements
 * [Docker](https://docs.docker.com/install/overview/) (or docker on a docker-machine-env for [macOS](https://docs.docker.com/machine/))
@@ -87,6 +87,9 @@ To put up All containters
 ```bash
 docker-compose up -d
 ```
+
+Import Postman Collection
+https://documenter.getpostman.com/view/21015452/2s8YmULKw8
 
 ### IPs range
 
