@@ -18,33 +18,29 @@ const app = createExpressServer({
   middlewares: [`${__dirname}/middleware/*.{ts,js}`],
 });
 
-try {
-  AppDataSource.initialize().then(() => {
-    // Body parser
-    app.use(express.json({ limit: '10kb' }));
+AppDataSource.initialize().then(() => {
+  // Body parser
+  app.use(express.json({ limit: '10kb' }));
 
-    // Logger
+  // Logger
 
-    app.use(morgan(
-      'request-id :id :remote-addr  :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status ":referrer" ":user-agent"',
-      {
-        stream: {
-          write: (message) => {
-            logger.info(message.trim());
-          },
+  app.use(morgan(
+    'request-id :id :remote-addr  :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status ":referrer" ":user-agent"',
+    {
+      stream: {
+        write: (message) => {
+          logger.info(message.trim());
         },
       },
-    ));
+    },
+  ));
 
-    app.listen(port);
-    console.log(`Server started on port: ${port}`);
+  app.listen(port);
+  console.log(`Server started on port: ${port}`);
 
-    // initiate cron jobs
-    const cron = new JobManager();
-    cron.run();
-  }).catch((e: any) => {
-    console.log(e);
-  });
-} catch (e) {
-  console.log(e);
-}
+  // initiate cron jobs
+  const cron = new JobManager();
+  cron.run();
+}).catch((e: any) => {
+  console.log(`ERROR:: ${e} | ${JSON.stringify(e)}`);
+});

@@ -27,22 +27,22 @@ services:
       && npm install
       && npm run dev"
 
-  postgresdb:
-    container_name: postgresdb
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
-    volumes: 
-      - ./docker/entrypoint/postgress.sql:/docker-entrypoint-initdb.d/booking_service.sql
-    networks:
-     booksys:
-        ipv4_address: 172.32.0.3
-        aliases:
-          - postgresdb.local
+  # postgresdb:
+  #   container_name: postgresdb
+  #   image: postgres:14.1-alpine
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - '5432:5432'
+  #   volumes: 
+  #     - ./docker/entrypoint/postgress.sql:/docker-entrypoint-initdb.d/booking_service.sql
+  #   networks:
+  #    booksys:
+  #       ipv4_address: 172.32.0.3
+  #       aliases:
+  #         - postgresdb.local
 
   mysqldb:
     container_name: mysqldb
@@ -62,16 +62,6 @@ services:
         ipv4_address: 172.32.0.4
         aliases:
           - mysqldb.local
-
-
-volumes:
-  postgresdb:
-    driver: local
-  mysqldb:
-
-
-
-
 networks:
   booksys:
     ipam:

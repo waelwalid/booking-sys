@@ -17,7 +17,7 @@ export class OrderController {
       const orders = await this.orderService.find({});
       return response.send({ data: orders });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
@@ -28,7 +28,7 @@ export class OrderController {
       const order = await this.orderService.findOne({ id });
       return response.send({ data: order });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
@@ -39,7 +39,7 @@ export class OrderController {
       const order = await this.orderService.store(body);
       return response.send({ data: order });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
@@ -50,7 +50,7 @@ export class OrderController {
       const order = await this.orderService.confirmPayment(body);
       return response.send({ data: order });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accoured!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }

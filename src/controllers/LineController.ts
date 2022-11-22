@@ -16,7 +16,7 @@ export class LineController {
       const lines = await this.lineService.find({});
       return response.send({ data: lines });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accoured!' });
     }
   }
@@ -27,7 +27,7 @@ export class LineController {
     try {
       return response.send({ message: 'Hello World!' });
     } catch (e) {
-      console.log(e);
+      console.log(`Error:: ${e} | ${JSON.stringify(e)}`);
       return response.send({ message: 'an error accoured!' });
     }
   }
