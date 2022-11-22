@@ -18,7 +18,7 @@ export class OrderController {
       return response.send({ data: orders });
     } catch (e) {
       console.log(e);
-      return response.send({ message: 'an error accoured!', error: `${e} | ${JSON.stringify(e)}` });
+      return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
 
@@ -29,7 +29,7 @@ export class OrderController {
       return response.send({ data: order });
     } catch (e) {
       console.log(e);
-      return response.send({ message: 'an error accoured!', error: `${e} | ${JSON.stringify(e)}` });
+      return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
 
@@ -40,7 +40,7 @@ export class OrderController {
       return response.send({ data: order });
     } catch (e) {
       console.log(e);
-      return response.send({ message: 'an error accoured!', error: `${e} | ${JSON.stringify(e)}` });
+      return response.send({ message: 'an error accrued!', error: `${e} | ${JSON.stringify(e)}` });
     }
   }
 
