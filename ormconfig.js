@@ -9,7 +9,7 @@ const TypeOrmConfig = {
   database: process.env.MYSQL_DB,
   type: process.env.TYPEORM_TYPE,
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: ['src/entities/**/*{.ts,.js}'],
   migrations: ['src/database/migrations/**/*{.ts,.js}'],
   subscribers: ['src/subscribers/**/*{.ts,.js}'],
