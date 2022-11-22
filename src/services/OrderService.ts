@@ -177,7 +177,7 @@ export class OrderService {
       queryRunner.startTransaction();
 
       // Set order expired status
-      queryBuilder.update(Order).set({
+      const count = await queryBuilder.update(Order).set({
         status: StatusType.EXPIRED,
       }).where({
         created_at: Between(
@@ -187,7 +187,7 @@ export class OrderService {
       }).execute();
 
       // Release Seats
-      queryBuilder
+      await queryBuilder
         .from(SeatAvailabilityEntity, 'seat_availability')
         // .leftJoin('orders', 'order', 'seat_availability.order_id = order.id')
         // .where(`order.status = '${StatusType.EXPIRED}'`)
@@ -199,6 +199,7 @@ export class OrderService {
 
       // commit transaction now:
       await queryRunner.commitTransaction();
+      console.log(`Found [${count.affected}] orders created 2 minutes ago...`);
     } catch (err) {
       // since we have errors let's rollback changes we made
       await queryRunner.rollbackTransaction();
