@@ -13,8 +13,8 @@ export default class Seeders implements Seeder {
     // const orderRepo = AppDataSource.getRepository(Order);
     // await orderRepo.delete({});
 
-    // const lineRepo = AppDataSource.getRepository(Line);
-    // await lineRepo.delete({});
+    const lineRepo = AppDataSource.getRepository(Line);
+    await lineRepo.delete({});
 
     const busRepo = AppDataSource.getRepository(Bus);
     await busRepo.delete({});
