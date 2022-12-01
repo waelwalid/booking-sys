@@ -117,7 +117,6 @@ https://documenter.getpostman.com/view/21015452/2s8YmULKw8
 | ------------- | ------------- | -------------       |
 | 172.32.0.110-120 | ------------- | Core Apps          |
 |  172.32.0.110 | Database |  mysqldb.local:3306           |
-|  172.32.0.4 | booking.local | <http://billing-backend.local>            |
 | 172.32.0.121-150 | ------------- | Adapters               |
 | 172.32.0.151-253  | ------------- | supporting services                |
 |  172.32.0.112 | ex: redis | <http://redis.local>          |
